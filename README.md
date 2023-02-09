@@ -1,4 +1,4 @@
-# django-iskedyul
+# Iskedyul
 
 Simple django app for creating timetables.
 
