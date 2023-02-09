@@ -20,7 +20,7 @@ py manage.py
 
     runserver
 
-django-admin startapp ???
+django-admin startapp core
 
 
 
