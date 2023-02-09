@@ -17,5 +17,6 @@ from django.urls import include, path
 from . import views as v
 
 urlpatterns = [
-    path("", v.TestView.as_view(), name="index"),
+    path("", v.TimesetListView.as_view(), name="index"),
+    path("timeset/<int:pk>/", v.TimesetDetailView.as_view(), name="timeset-detail"),
 ]

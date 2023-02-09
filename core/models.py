@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.utils.translation import gettext as _
 
@@ -18,8 +19,8 @@ class Timeblock(models.Model):
         ('Sun', _('Sunday')),
     ]
     day = models.CharField(max_length=50, choices=DAYS_OF_WEEK)
-    start_time = models.TimeField(auto_now=False, auto_now_add=False)
-    end_time = models.TimeField(auto_now=False, auto_now_add=False)
+    start_time = models.TimeField(default=datetime.time(00, 00), auto_now=False, auto_now_add=False)
+    end_time = models.TimeField(default=datetime.time(00, 00), auto_now=False, auto_now_add=False)
     content = models.CharField(max_length=50)
 
     class Meta:
@@ -43,7 +44,7 @@ class Timeset(models.Model):
         verbose_name_plural = _("timesets")
 
     def __str__(self):
-        return 'self.name'
+        return self.title
 
     def get_absolute_url(self):
         return reverse("timeset_detail", kwargs={"pk": self.pk})

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% if object_list %}
+        <h3>Timesets</h3>
+    {% endif %}
+    {% for timeset in object_list %}
+        <a href="{% url "timeset-detail" timeset.id %}">[{{ timeset.id }}] {{ timeset.title }}</a><br>
+    {% empty %}
+        You have no lists!
+    {% endfor %}
+
+    
+{% endblock %}

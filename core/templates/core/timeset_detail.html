@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% for timeblock in object.timeblocks.all %}
+        <a href="{%%\}"
+            <p>{{ timeblock.content }}</p>
+        </a>
+        <p>day: {{ timeblock.get_day_display }}</p>
+        <p>start time: {{ timeblock.start_time|time:'h:i A' }}</p>
+        <p>end time: {{ timeblock.end_time|time:'h:i A' }}</p>
+        
+    {% endfor %}
+{% endblock %}

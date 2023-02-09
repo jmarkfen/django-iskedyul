@@ -34,6 +34,14 @@ create test view
 
 create test template
 
+create models.py
+
+py manage.py
+
+    makemigrations core
+
+    migrate
+
 
 
 ## Ideas
