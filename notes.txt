@@ -22,7 +22,11 @@ py manage.py
 
 django-admin startapp core
 
-settings.py -> TIME_ZONE = 'Asia/Manila'
+settings.py
+
+    add 'core' to INSTALLED_APPS
+
+    TIME_ZONE = 'Asia/Manila'
 
 touch core\urls.py
 

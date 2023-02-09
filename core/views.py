@@ -5,3 +5,4 @@ from django.views import generic as g
 
 class TestView(g.TemplateView):
     template_name = "core/test.html"
+
