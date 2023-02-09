@@ -22,6 +22,14 @@ py manage.py
 
 django-admin startapp core
 
+settings.py -> TIME_ZONE = 'Asia/Manila'
+
+touch core\urls.py
+
+create test view
+
+create test template
+
 
 
 ## Ideas
