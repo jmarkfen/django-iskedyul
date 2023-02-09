@@ -17,6 +17,10 @@ from django.urls import include, path
 from . import views as v
 
 urlpatterns = [
+    # list of timesets
     path("", v.TimesetListView.as_view(), name="index"),
+    # timeset details and its collection of timeblocks
     path("timeset/<int:pk>/", v.TimesetDetailView.as_view(), name="timeset-detail"),
+    # timeblock details
+    path("timeset/<int:timeset_id>/timeblock/<int:pk>/", v.TimeblockDetailView.as_view(), name="timeblock-detail")
 ]

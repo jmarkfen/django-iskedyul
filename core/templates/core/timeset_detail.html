@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     {% for timeblock in object.timeblocks.all %}
-        <a href="{%%\}"
+        <a href="{% url "timeblock-detail" object.id timeblock.id %}"
             <p>{{ timeblock.content }}</p>
         </a>
         <p>day: {{ timeblock.get_day_display }}</p>
