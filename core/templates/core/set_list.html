@@ -1,0 +1,4 @@
+{% for set in object_list %}
+    <a href="{% url "set_detail" set.id %}">{{ set.title }}</a><br>
+{% endfor %}
+<a href="{% url "set_create" %}">new</a>
