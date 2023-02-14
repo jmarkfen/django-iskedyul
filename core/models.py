@@ -1,6 +1,7 @@
 import datetime
 from django.db import models
 from django.utils.translation import gettext as _
+from django.urls import reverse
 # Create your models here.
 
 class Set(models.Model):
@@ -15,7 +16,7 @@ class Set(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("set_detail", kwargs={"pk": self.pk})
+        return reverse("set_list", kwargs={"pk": self.pk})
 
 class Block(models.Model):
 

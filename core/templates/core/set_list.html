@@ -1,0 +1,7 @@
+{% for set in object_list %}
+    {{ set.title }}<br>
+    {% for block in set.block_set.all %}
+        {{ block.text }}<br>
+    {% endfor %}
+{% endfor %}
+<a href="{% url "set_create" %}">new</a>
