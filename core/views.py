@@ -30,3 +30,20 @@ class SetUpdateView(UpdateView):
     model = Set
     fields = "__all__"
     #template_name = "core/set_form.html"
+
+
+# blocks
+
+class BlockCreateView(CreateView):
+    model = Block
+    fields = "__all__"
+    #template_name = ".html"
+
+    def get_initial(self):
+        initial = super().get_initial()
+        # set the value of the field to the 'set_id' url parameter
+        initial['set'] = Set.objects.get(id=self.kwargs['set_id'])
+        return initial
+
+    def get_success_url(self):
+        return reverse('set_detail', kwargs={'pk': self.object.set_id,})
