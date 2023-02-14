@@ -24,5 +24,6 @@ urlpatterns = [
     path("sets/<int:pk>/edit/", views.SetUpdateView.as_view(), name="set_update"),
     # blocks
     path("sets/<int:set_id>/blocks/new/", views.BlockCreateView.as_view(), name="block_create"),
-
+    path("sets/<int:set_id>/blocks/<int:pk>/edit/", views.BlockUpdateView.as_view(), name="block_update"),
+    
 ]

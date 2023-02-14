@@ -46,4 +46,13 @@ class BlockCreateView(CreateView):
         return initial
 
     def get_success_url(self):
+        # sets/<int:pk>/
         return reverse('set_detail', kwargs={'pk': self.object.set_id,})
+
+class BlockUpdateView(UpdateView):
+    model = Block
+    fields = "__all__"
+    # template_name = ".html"
+
+    def get_success_url(self):
+        return reverse('set_detail', kwargs={'pk': self.object.set_id})
