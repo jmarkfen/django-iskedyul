@@ -1,5 +1,5 @@
 {% for set in object_list %}
-    {{ set.title }}<br>
+    <a href="{% url "set_detail" set.id %}">{{ set.title }}</a><br>
     {% for block in set.block_set.all %}
         {{ block.text }}<br>
     {% endfor %}

@@ -16,7 +16,7 @@ class Set(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("set_list", kwargs={"pk": self.pk})
+        return reverse("set_detail", kwargs={"pk": self.pk})
 
 class Block(models.Model):
 

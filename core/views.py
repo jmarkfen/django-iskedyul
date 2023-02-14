@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import resolve, reverse, reverse_lazy
 from django.views import generic as g
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView
 from .models import Set, Block
 
 # Create your views here.
@@ -21,3 +21,7 @@ class SetCreateView(CreateView):
 
     def get_success_url(self):
         return reverse('set_list')
+
+class SetDetailView(DetailView):
+    model = Set
+    template_name = "core/set_detail.html"
