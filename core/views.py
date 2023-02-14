@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import resolve, reverse, reverse_lazy
 from django.views import generic as g
-from django.views.generic import ListView, CreateView, DetailView, UpdateView
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from .models import Set, Block
 
 # Create your views here.
@@ -31,6 +31,10 @@ class SetUpdateView(UpdateView):
     fields = "__all__"
     #template_name = "core/set_form.html"
 
+class SetDeleteView(DeleteView):
+    model = Set
+    #template_name = ".html"
+    success_url = reverse_lazy('set_list')
 
 # blocks
 
