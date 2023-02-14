@@ -3,3 +3,4 @@
     {{ form.as_p }}
     <input type="submit">
 </form>
+<a href="{% url 'block_delete' object.set_id object.id %}">delete</a>

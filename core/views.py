@@ -60,3 +60,10 @@ class BlockUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse('set_detail', kwargs={'pk': self.object.set_id})
+
+class BlockDeleteView(DeleteView):
+    model = Block
+    # template_name = ".html"
+
+    def get_success_url(self):
+        return reverse('set_detail', kwargs={'pk': self.object.set_id})

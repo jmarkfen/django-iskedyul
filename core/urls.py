@@ -26,5 +26,5 @@ urlpatterns = [
     # blocks
     path("sets/<int:set_id>/blocks/new/", views.BlockCreateView.as_view(), name="block_create"),
     path("sets/<int:set_id>/blocks/<int:pk>/edit/", views.BlockUpdateView.as_view(), name="block_update"),
-
+    path("sets/<int:set_id>/block/<int:pk>/delete/", views.BlockDeleteView.as_view(), name="block_delete"),
 ]
