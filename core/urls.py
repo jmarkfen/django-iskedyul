@@ -20,5 +20,7 @@ urlpatterns = [
     path("test", views.TestView.as_view(), name="test"),
     path("sets/", views.SetListView.as_view(), name="set_list"),
     path("sets/new/", views.SetCreateView.as_view(), name="set_create"),
-    path("sets/<int:pk>/", views.SetDetailView.as_view(), name="set_detail")
+    path("sets/<int:pk>/", views.SetDetailView.as_view(), name="set_detail"),
+    path("sets/<int:pk>/edit/", views.SetUpdateView.as_view(), name="set_update"),
+    
 ]

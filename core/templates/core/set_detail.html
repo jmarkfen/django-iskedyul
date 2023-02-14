@@ -1,2 +1,7 @@
-{{ object.title }}<br>
+title: {{ object.title }}<br>
+{% for block in set.block_set.all %}
+    <a href="{% url 'test' %}">{{ block.text }}</a><br>
+{% endfor %}
+<a href="{% url 'set_update' object.id %}">Edit</a>
+<a href="">add block</a><br>
 <a href="{% url 'set_list' %}">go back</a>
