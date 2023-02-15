@@ -1,0 +1,23 @@
+{% comment "a" %}
+rows is a list of rows
+row is a list of cell
+cell is tuple of text, rowspan, and classes [ex: is-conflict]
+{% endcomment %}
+<table>
+    <caption>{{ title }}</caption>
+    {% for row in rows %}
+        <tr>
+        {% for cell in row %}
+            {% if cell.0 %}
+                {% if cell.1 > 1 %}
+                    <td rowspan="{{ cell.1 }}">{{ cell.0 }}</td>
+                {% else %}
+                    <td>{{ cell.0 }}</td>
+                {% endif %}
+            {% else %}
+                    <td></td>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+    </tr>
+</table>

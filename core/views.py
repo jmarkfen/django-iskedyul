@@ -26,6 +26,14 @@ class SetDetailView(DetailView):
     model = Set
     template_name = "core/set_detail.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        row1 = [('hello',), ('world',),]
+        row2 = [('yo',),]
+        context["rows"] = [row1, row2]
+        return context
+    
+
 class SetUpdateView(UpdateView):
     model = Set
     fields = "__all__"

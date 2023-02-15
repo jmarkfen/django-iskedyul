@@ -18,6 +18,24 @@ class Set(models.Model):
     def get_absolute_url(self):
         return reverse("set_detail", kwargs={"pk": self.pk})
 
+
+class DayDefaults(models.TextChoices):
+    MONDAY = 'Monday'
+    TUESDAY  = 'Tuesday'
+    WEDNESDAY = 'Wednesday'
+    THURSDAY = 'Thursday'
+    FRIDAY = 'Friday'
+    SATURDAY = 'Saturday'
+    SUNDAY = 'Sunday'
+
+
+DEFAULT_DAYS = ('Monday', 'Tuesday','Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
+
+DEFAULT_TIME = ('07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', 
+                '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', 
+                '17:00', '17:30', '18:00', '19:30', '20:00', '20:30')
+                
+
 class Block(models.Model):
 
     set = models.ForeignKey("core.Set", on_delete=models.CASCADE)

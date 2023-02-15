@@ -1,4 +1,8 @@
 title: {{ object.title }}<br>
+
+table:
+{% include 'core/table.html' with rows=rows %}
+
 {% for block in set.block_set.all %}
     <a href="{% url 'block_update' object.id block.id %}">{{ block.text }}</a><br>
 {% endfor %}
