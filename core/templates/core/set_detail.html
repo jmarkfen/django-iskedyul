@@ -3,11 +3,8 @@
 title: {{ object.title }}<br>
 
 table:
-{% include 'core/table.html' with rows=rows %}
+{% include 'core/set_detail_table.html' %}
 
-{% for block in object.block_set.all %}
-    <a href="{% url 'block_update' object.id block.id %}">{{ block.text }} - {{ block.get_day_display }}</a><br>
-{% endfor %}
 <a href="{% url 'set_update' object.id %}">Edit</a><br>
 <a href="{% url 'block_create' object.id %}">add block</a><br>
 <a href="{% url 'set_delete' object.id %}">delete</a><br>

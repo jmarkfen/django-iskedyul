@@ -29,9 +29,7 @@ class SetDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        row1 = [('hello',), ('world',),]
-        row2 = [('yo',),]
-        context["rows"] = [row1, row2]
+        context['by_days'] = oop.day_dict(self.object.block_set.all())
         return context
     
 
