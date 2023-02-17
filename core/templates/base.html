@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <!--base template-->
+{% load static %}
 <html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'styles.css' %}">
         {% block title %}<title>Iskedyul</title>{% endblock %}
     </head>
     <body>
         <div>
-            <h1 onclick="location.href='{% url "index" %}'">
+            <h1 onclick="location.href=''">
                 Iskedyul
             </h1>
         </div>

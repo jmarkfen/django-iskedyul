@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block content %}
 title: {{ object.title }}<br>
 
 table:
@@ -10,3 +12,4 @@ table:
 <a href="{% url 'block_create' object.id %}">add block</a><br>
 <a href="{% url 'set_delete' object.id %}">delete</a><br>
 <a href="{% url 'set_list' %}">go back</a>
+{% endblock %}
