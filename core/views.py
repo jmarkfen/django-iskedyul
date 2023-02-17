@@ -4,6 +4,7 @@ from django.urls import resolve, reverse, reverse_lazy
 from django.views import generic as g
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from .models import Set, Block
+from . import oop
 
 # Create your views here.
 
