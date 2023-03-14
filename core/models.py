@@ -18,6 +18,18 @@ class Set(models.Model):
     def get_absolute_url(self):
         return reverse("set_detail", kwargs={"pk": self.pk})
 
+    # returns a 2x2 matrix where the rows are start times and days are columns
+    # usage: Set.get_matrix()
+    def get_matrix(self):
+        # step 1: group into start times
+        # step 2: for each group, sort elements by day
+        # step 3: mark conflicts by checking each group for events in the same day
+        # step 4: create matrixq
+        #         for conflicts, insert a new column to put the second item
+        #         also insert columns on the same index on other rows
+        return self.block_set.all()
+        #pass
+
 
 class DayDefaults(models.TextChoices):
     MONDAY = 'Monday'
@@ -27,6 +39,19 @@ class DayDefaults(models.TextChoices):
     FRIDAY = 'Friday'
     SATURDAY = 'Saturday'
     SUNDAY = 'Sunday'
+
+
+# put inside block/event
+class WeekDays(models.IntegerChoices):
+    MONDAY = 1, _('Monday')
+    TUESDAY = 2, _('Tuesday')
+    WEDNESDAY = 3, _('Wednesday')
+    THURSDAY = 4, _('Thursday')
+    FRIDAY = 5, _('Friday')
+    SATURDAY = 6, _('Saturday')
+    SUNDAY = 7, _('Sunday')
+
+    __empty__ = _('(Unknown)')
 
 
 DEFAULT_DAYS = ('Monday', 'Tuesday','Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')

@@ -14,21 +14,6 @@ class Cell:
         self.text = text
         self.tags = tags
 
-def blocks_by_day(set_id):
-    blocks = Block.objects.filter(set=set_id)
-    by_days = {
-        'Mon': [], 
-        'Tue': [], 
-        'Wed': [], 
-        'Thu': [], 
-        'Fri': [], 
-        'Sat': [], 
-        'Sun': [], 
-        }
-    for block in blocks:
-        by_days[block.day].append(block)
-    return by_days
-
 # blocks: queryset containing blocks (block_set.all() or block_set.filter())
 # returns a dictionary with days as keys and blocks as values
 def day_dict(blocks):
@@ -40,3 +25,11 @@ def day_dict(blocks):
         daycol[d] = qs[0] if len(qs) > 0 else None
     return daycol
 
+
+def block_row(blocks, start):
+    row = {}
+    for d in DEFAULT_D:
+        qs = blocks.filter(day=d, start_time=start)
+        # cell.tag = conflict
+        pass
+    pass

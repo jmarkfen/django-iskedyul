@@ -43,7 +43,30 @@ create test template
 - filters
 - add, edit/delete
 - add models.py to common folder -NOT WORKING
-- 
+- calculate rowspan: (endtime - starttime) * 2 = no. of rows
+
+## Table display components
+
+- queryset record sorter
+- schedule conflict detector
+- queryset to dense matrix converter
+- dense matrix to html table renderer
+
+## Table display steps
+
+- fetch records
+- group records by time ranges [def groupby(queryset, interval_minutes=30) return dict]
+- sort each group by day [groupby() -> sort_day(dict):for e in dict sort e.x by x.day desc]
+- if there are records within the time range that has the same day, mark those records as conflicting [for e in len(dict.e)-1 then set conflict if [x-1].day == [x].day]
+
+## Incremental development
+
+v.1 
+ - display basic timetable with 7-day week and 30-minute time range from 7:30 AM to 8:30 PM
+ - using text choices for time fields and basic string matching
+ - adding methods to models.Set such as get_matrix()
+
+
 
 ## References
 
