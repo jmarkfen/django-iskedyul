@@ -8,6 +8,8 @@ py -m pip
 
     install django
 
+    install django-crispy-forms
+
     freeze > requirements.txt
 
 django-admin startproject timetable .
