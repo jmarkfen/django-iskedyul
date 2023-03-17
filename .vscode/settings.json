@@ -1,2 +1,7 @@
 {
+    "python.analysis.extraPaths": [
+        "venv/Lib"
+    ],
+    "python.venvPath": "venv/",
+    "python.pythonPath": "venv/Scripts/python"
 }

@@ -1,8 +1,12 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form|crispy }}
     <input type="submit">
 </form>
 {% if object %}
     <a href="{% url 'block_delete' object.set_id object.id %}">delete</a>
 {% endif %}
+{% endblock %}

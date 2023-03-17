@@ -10,6 +10,8 @@ py -m pip
 
     install django-crispy-forms
 
+    install crispy-bootstrap5
+
     freeze > requirements.txt
 
 django-admin startproject timetable .

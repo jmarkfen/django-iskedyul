@@ -2,6 +2,7 @@
 
 ## Functionality
 
+- [x] install crispy forms
 - [x] create new schedule
 - [x] display schedule titles
 - [x] open schedule
