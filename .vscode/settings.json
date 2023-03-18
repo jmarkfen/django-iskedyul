@@ -1,7 +1,7 @@
 {
     "python.analysis.extraPaths": [
-        "venv/Lib"
+        "${workspaceFolder}/venv/Lib"
     ],
-    "python.venvPath": "venv/",
-    "python.pythonPath": "venv/Scripts/python"
+    "python.venvPath": "${workspaceFolder}/venv/",
+    "python.pythonPath": "${workspaceFolder}/venv/Scripts/python"
 }
