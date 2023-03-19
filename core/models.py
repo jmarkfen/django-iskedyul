@@ -2,11 +2,25 @@ import datetime
 from django.db import models
 from django.utils.translation import gettext as _
 from django.urls import reverse
+from django.db.models import Case, CharField, Count, F, Value, When
+from django.db.models.functions import Trunc
+# from .oop import time_add_minutes
+
+# add minutes to a time object
+def time_add_minutes(initial_time, minutes):
+    t = datetime.datetime.strptime(f'{initial_time.hour}:{initial_time.minute}:{initial_time.second}', '%H:%M:%S')
+    m = datetime.datetime.strptime(f'00:{minutes}:00', '%H:%M:%S')
+    time_zero = datetime.datetime.strptime('00:00:00', '%H:%M:%S')
+    result =  (t - time_zero + m).time()
+    return result
+
 # Create your models here.
 
 class Set(models.Model):
 
     title = models.CharField(_("title"), max_length=50)
+    # notes
+    # minute_interval
 
     class Meta:
         verbose_name = _("set")
@@ -27,7 +41,38 @@ class Set(models.Model):
         # step 4: create matrixq
         #         for conflicts, insert a new column to put the second item
         #         also insert columns on the same index on other rows
-        return self.block_set.all()
+        # set interval
+        # TODO: replace with interval as a Set field
+        interval = 30
+        # set start time
+        start_time = datetime.time(00,00)
+        # set end time
+        end_time = datetime.time(20, 30)
+        # generate time_ranges
+        time_ranges = []
+        current_time = start_time
+        while current_time <= end_time:
+            new_time = time_add_minutes(current_time, interval)
+            time_ranges.append((current_time, new_time))
+            current_time = new_time
+        # create queryset with events sorted by start_time
+        qs = self.block_set.all().order_by('start_time')
+        # create when clauses for case
+        whens = []
+        for t1, t2 in time_ranges:
+            # when condition then label
+            whens.append(When(start_time__gte=t1, start_time__lt=t2, then=Value(str(t1) + '-' + str(t2))))
+        # create queryset with events grouped by time_ranges
+        qs = qs.annotate(
+            time_range=Case(
+                *whens,
+                default=Value('other'),
+                output_field=models.CharField(),
+            )
+        ).values('time_range', 'start_time', 'end_time')
+        # create queryset that groups the events by time range and day
+        # return queryset
+        return qs
         #pass
 
 
@@ -86,3 +131,4 @@ class Block(models.Model):
 
     def get_absolute_url(self):
         return reverse("block_detail", kwargs={"pk": self.pk})
+
