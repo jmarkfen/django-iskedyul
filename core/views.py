@@ -3,6 +3,7 @@ from django.shortcuts import redirect, render
 from django.urls import resolve, reverse, reverse_lazy
 from django.views import generic as g
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from bootstrap_datepicker_plus.widgets import TimePickerInput
 from .models import Set, Block
 from . import oop
 
@@ -64,6 +65,13 @@ class BlockUpdateView(UpdateView):
     model = Block
     fields = "__all__"
     # template_name = ".html"
+
+    # modify generated form
+    def get_form(self):
+        form = super().get_form()
+        form.fields['start_time'].widget = TimePickerInput()
+        form.fields['end_time'].widget = TimePickerInput(range_from='start_time')
+        return form
 
     def get_success_url(self):
         return reverse('set_detail', kwargs={'pk': self.object.set_id})
