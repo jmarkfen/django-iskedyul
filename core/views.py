@@ -57,6 +57,13 @@ class BlockCreateView(CreateView):
         initial['set'] = Set.objects.get(id=self.kwargs['set_id'])
         return initial
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        ## pass url parameter as context for template
+        context['set_id'] = self.kwargs['set_id']
+        return context
+    
+
     def get_success_url(self):
         # sets/<int:pk>/
         return reverse('set_detail', kwargs={'pk': self.object.set_id,})
@@ -72,6 +79,12 @@ class BlockUpdateView(UpdateView):
         form.fields['start_time'].widget = TimePickerInput()
         form.fields['end_time'].widget = TimePickerInput(range_from='start_time')
         return form
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        ## pass url parameter as context for template
+        context['set_id'] = self.kwargs['set_id']
+        return context
 
     def get_success_url(self):
         return reverse('set_detail', kwargs={'pk': self.object.set_id})

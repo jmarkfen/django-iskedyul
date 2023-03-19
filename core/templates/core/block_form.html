@@ -12,4 +12,5 @@
 {% if object %}
     <a href="{% url 'block_delete' object.set_id object.id %}">delete</a>
 {% endif %}
+<a href={% url 'set_detail' set_id %}>go back</a>
 {% endblock %}
