@@ -61,7 +61,8 @@ class Set(models.Model):
         whens = []
         for t1, t2 in time_ranges:
             # when condition then label
-            whens.append(When(start_time__gte=t1, start_time__lt=t2, then=Value(str(t1) + '-' + str(t2))))
+            # TODO: format time label
+            whens.append(When(start_time__gte=t1, start_time__lt=t2, then=Value(str(t1) + ' - ' + str(t2))))
         # create queryset with events grouped by time_ranges
         qs = qs.annotate(
             time_range=Case(
@@ -69,8 +70,8 @@ class Set(models.Model):
                 default=Value('other'),
                 output_field=models.CharField(),
             )
-        ).values('time_range', 'start_time', 'end_time')
-        # create queryset that groups the events by time range and day
+        ).values('time_range', 'text', 'day', 'start_time', 'end_time')
+        # within each group, sort events by day
         # return queryset
         return qs
         #pass
