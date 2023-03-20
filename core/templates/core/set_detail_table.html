@@ -9,6 +9,28 @@
         <th>FRIDAY</th>
         <th>SATURDAY</th>
         <th>SUNDAY</th>
+{% for row in rows %}
+    <tr>
+        <td>{{ row.label }}</td>
+    {% for e in row.queryset %}
+    
+        <td>{{ e.text }}</td>
+    {% endfor %}
+    </tr>
+{% endfor %}
+</table>
+<hr>
+<table>
+    <tr>
+        <th></th>
+        {# column headers #}
+        <th>MONDAY</th>
+        <th>TUESDAY</th>
+        <th>WEDNESDAY</th>
+        <th>THURSDAY</th>
+        <th>FRIDAY</th>
+        <th>SATURDAY</th>
+        <th>SUNDAY</th>
     <tr>
         <th>time</th>
         {% for block in by_days.values %}
