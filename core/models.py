@@ -4,6 +4,7 @@ from django.utils.translation import gettext as _
 from django.urls import reverse
 from django.db.models import Case, CharField, Count, F, Value, When
 from django.db.models.functions import Trunc
+from django.core.validators import MinValueValidator, MaxValueValidator
 from . import helpers as hp
 # from .oop import time_add_minutes
 
@@ -21,8 +22,8 @@ def time_add_minutes(initial_time, minutes):
 class Set(models.Model):
 
     title = models.CharField(_("title"), max_length=50)
-    # notes
-    # minute_interval
+    #notes = models.CharField(_("notes"))
+    #interval = models.PositiveIntegerField(_("interval"), default=30, validators=[MinValueValidator(0), MaxValueValidator(59)])
 
     class Meta:
         verbose_name = _("set")
@@ -36,8 +37,6 @@ class Set(models.Model):
 
     def get_time_ranges(self):
         """ generate time ranges based on interval """
-        # TODO: replace with interval as a Set field
-        interval = 30
         # set start time
         start_time = datetime.time(00,00)
         # set end time (last row will be +30 min)
@@ -46,7 +45,7 @@ class Set(models.Model):
         time_ranges = []
         current_time = start_time
         while current_time <= end_time:
-            new_time = time_add_minutes(current_time, interval)
+            new_time = time_add_minutes(current_time, 30)
             time_ranges.append((current_time, new_time, str(current_time) + '-' + str(new_time)))
             current_time = new_time
         return time_ranges
