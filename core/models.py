@@ -4,6 +4,7 @@ from django.utils.translation import gettext as _
 from django.urls import reverse
 from django.db.models import Case, CharField, Count, F, Value, When
 from django.db.models.functions import Trunc
+from . import helpers as hp
 # from .oop import time_add_minutes
 
 def time_add_minutes(initial_time, minutes):
@@ -50,10 +51,8 @@ class Set(models.Model):
             current_time = new_time
         return time_ranges
 
-    def get_matrix(self):
-        """ returns a 2x2 matrix where the rows are start times and days are columns 
-            usage: Set.objects.get(pk=id).get_matrix()
-        """
+    def by_time_range(self):
+        """ returns a queryset annotated with the time range """
         # step 1: group into start times
         # step 2: for each group, sort elements by day
         # step 3: mark conflicts by checking each group for events in the same day
@@ -87,18 +86,21 @@ class Set(models.Model):
     def get_rows(self):
         """ get rows sorted by time ranges """
         labels = [t[2] for t in self.get_time_ranges()]
-        matrix = self.get_matrix()
+        matrix = self.by_time_range()
         rows = []
         for label in labels:
-            # get only records in label time range
+            # get only records in the time range
             m = matrix.filter(time_range=label)
-            # count number of records
-            m_count = m.count()
-            # annotate the count to the records
-            m_annot = m.annotate(range_count=Value(label, models.CharField()))
-            # append to label and the queryset to rows
-            rows.append((label, m_annot))
+            # count records with identical time_ranges
+            m_annot = hp.count(m, 'time_range', label)
+            
+            rows.append({'label': label, 'queryset': m_annot})
         return rows
+
+    def get_table(self):
+        """ generate table data for html template """
+        
+        pass
 
 class DayDefaults(models.TextChoices):
     MONDAY = 'Monday'
