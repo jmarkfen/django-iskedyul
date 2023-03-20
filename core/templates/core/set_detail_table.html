@@ -11,9 +11,10 @@
 {% for row in rows %}
     <tr>
         <td>{{ row.label }}</td>
-    {% for e in row.queryset %}
+    {% for event in row.queryset %}
 
-        <td>{{ e.text }}</td>
+        <td>
+        </td>
     {% endfor %}
     </tr>
 {% endfor %}

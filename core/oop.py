@@ -45,7 +45,8 @@ def day_dict(blocks):
     time_rows = {}
     time_rows['time1'] = {}
     daycol = {}
-    for d in DEFAULT_D:
+    days = [1, 2, 3, 4, 5, 6, 7]
+    for d in days:
         qs = blocks.filter(day=d)
         daycol[d] = qs[0] if len(qs) > 0 else None
     return daycol

@@ -21,9 +21,9 @@ def time_add_minutes(initial_time, minutes):
 
 class Timetable(models.Model):
 
-    title = models.CharField(_("title"), max_length=50)
-    notes = models.CharField(_("notes"), default=None, max_length=240)
-    interval = models.PositiveIntegerField(_("interval"), default=30, validators=[MinValueValidator(0), MaxValueValidator(59)])
+    title = models.CharField(max_length=50)
+    notes = models.CharField(default=None, max_length=240)
+    interval = models.PositiveIntegerField(default=30, validators=[MinValueValidator(0), MaxValueValidator(59)])
 
     # class Meta:
     #     verbose_name = _("timetable")
@@ -38,8 +38,10 @@ class Timetable(models.Model):
     def get_time_ranges(self):
         """ generate time ranges based on interval """
         # set start time
+        # TODO: find event with fist start_time and use it
         start_time = datetime.time(00,00)
         # set end time (last row will be +30 min)
+        # TODO: find the event with last end_time and use it
         end_time = datetime.time(20, 00)
         # generate time_ranges
         time_ranges = []
@@ -75,7 +77,7 @@ class Timetable(models.Model):
                 default=Value('other'),
                 output_field=models.CharField(),
             )
-        ).values('time_range', 'text', 'day', 'start_time', 'end_time')
+        ).values('timetable_id', 'id', 'text', 'day', 'start_time', 'end_time', 'time_range')
         # annotate queryset with conflict
 
         # TODO: test blocks with same day and time range
@@ -98,18 +100,9 @@ class Timetable(models.Model):
 
     def get_table(self):
         """ generate table data for html template """
+        qs = self.by_time_range
         
         pass
-
-class DayDefaults(models.TextChoices):
-    MONDAY = 'Monday'
-    TUESDAY  = 'Tuesday'
-    WEDNESDAY = 'Wednesday'
-    THURSDAY = 'Thursday'
-    FRIDAY = 'Friday'
-    SATURDAY = 'Saturday'
-    SUNDAY = 'Sunday'
-
 
 # put inside block/event
 class WeekDays(models.IntegerChoices):
@@ -120,22 +113,14 @@ class WeekDays(models.IntegerChoices):
     FRIDAY = 5, _('Friday')
     SATURDAY = 6, _('Saturday')
     SUNDAY = 7, _('Sunday')
-
-
-DEFAULT_DAYS = ('Monday', 'Tuesday','Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
-
-DEFAULT_TIME = ('07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', 
-                '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30', 
-                '17:00', '17:30', '18:00', '19:30', '20:00', '20:30')
                 
-
 class Event(models.Model):
 
-    set = models.ForeignKey("core.Timetable", on_delete=models.CASCADE)
-    text = models.CharField(_("text"), max_length=50)
+    timetable = models.ForeignKey("core.Timetable", on_delete=models.CASCADE)
+    text = models.CharField(max_length=50)
     start_time = models.TimeField(default=datetime.time(00, 00), auto_now=False, auto_now_add=False)
     end_time = models.TimeField(default=datetime.time(00, 00), auto_now=False, auto_now_add=False)
-    day = models.CharField(max_length=50, choices=WeekDays.choices)
+    day = models.PositiveIntegerField(choices=WeekDays.choices)
 
     # class Meta:
     #     verbose_name = _("event")
