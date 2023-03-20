@@ -19,15 +19,15 @@ def time_add_minutes(initial_time, minutes):
 
 # Create your models here.
 
-class Set(models.Model):
+class Timetable(models.Model):
 
     title = models.CharField(_("title"), max_length=50)
-    #notes = models.CharField(_("notes"))
-    #interval = models.PositiveIntegerField(_("interval"), default=30, validators=[MinValueValidator(0), MaxValueValidator(59)])
+    notes = models.CharField(_("notes"), default=None, max_length=240)
+    interval = models.PositiveIntegerField(_("interval"), default=30, validators=[MinValueValidator(0), MaxValueValidator(59)])
 
-    class Meta:
-        verbose_name = _("set")
-        verbose_name_plural = _("sets")
+    # class Meta:
+    #     verbose_name = _("timetable")
+    #     verbose_name_plural = _("timetables")
 
     def __str__(self):
         return self.title
@@ -45,7 +45,7 @@ class Set(models.Model):
         time_ranges = []
         current_time = start_time
         while current_time <= end_time:
-            new_time = time_add_minutes(current_time, 30)
+            new_time = time_add_minutes(current_time, self.interval)
             time_ranges.append((current_time, new_time, str(current_time) + '-' + str(new_time)))
             current_time = new_time
         return time_ranges
@@ -61,7 +61,7 @@ class Set(models.Model):
         # generate time_ranges
         time_ranges = self.get_time_ranges()
         # create queryset with events sorted by start_time then day
-        qs = self.block_set.all().order_by('start_time', 'day')
+        qs = self.event_set.all().order_by('start_time', 'day')
         # create when clauses for annotating time ranges
         whens = []
         for t1, t2, label in time_ranges:
@@ -131,9 +131,9 @@ DEFAULT_TIME = ('07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '
                 '17:00', '17:30', '18:00', '19:30', '20:00', '20:30')
                 
 
-class Block(models.Model):
+class Event(models.Model):
 
-    set = models.ForeignKey("core.Set", on_delete=models.CASCADE)
+    set = models.ForeignKey("core.Timetable", on_delete=models.CASCADE)
     text = models.CharField(_("text"), max_length=50)
     start_time = models.TimeField(default=datetime.time(00, 00), auto_now=False, auto_now_add=False)
     end_time = models.TimeField(default=datetime.time(00, 00), auto_now=False, auto_now_add=False)
@@ -147,9 +147,9 @@ class Block(models.Model):
         ('Sun', _('Sunday')),
     ])
 
-    class Meta:
-        verbose_name = _("block")
-        verbose_name_plural = _("blocks")
+    # class Meta:
+    #     verbose_name = _("event")
+    #     verbose_name_plural = _("events")
 
     def __str__(self):
         return self.text

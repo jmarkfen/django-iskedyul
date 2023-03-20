@@ -1,7 +1,6 @@
 <table>
     <tr>
-        <th></th>
-        {# column headers #}
+        <th>TIME</th>
         <th>MONDAY</th>
         <th>TUESDAY</th>
         <th>WEDNESDAY</th>
@@ -13,7 +12,7 @@
     <tr>
         <td>{{ row.label }}</td>
     {% for e in row.queryset %}
-            
+
         <td>{{ e.text }}</td>
     {% endfor %}
     </tr>

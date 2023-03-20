@@ -4,7 +4,7 @@ from django.urls import resolve, reverse, reverse_lazy
 from django.views import generic as g
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from bootstrap_datepicker_plus.widgets import TimePickerInput
-from .models import Set, Block
+from .models import Timetable, Event
 from . import oop
 
 # Create your views here.
@@ -13,11 +13,11 @@ class TestView(g.TemplateView):
     template_name = "core/test.html"
 
 class SetListView(ListView):
-    model = Set
+    model = Timetable
     template_name = "core/set_list.html"
 
 class SetCreateView(CreateView):
-    model = Set
+    model = Timetable
     fields = "__all__"
     #template_name = ".html"
 
@@ -25,38 +25,38 @@ class SetCreateView(CreateView):
         return reverse('set_list')
 
 class SetDetailView(DetailView):
-    model = Set
+    model = Timetable
     template_name = "core/set_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['by_days'] = oop.day_dict(self.object.block_set.all())
+        context['by_days'] = oop.day_dict(self.object.event_set.all())
         context['row_labels'] = self.object.get_time_ranges()
         context['rows'] = self.object.get_rows()
         return context
     
 
 class SetUpdateView(UpdateView):
-    model = Set
+    model = Timetable
     fields = "__all__"
     #template_name = "core/set_form.html"
 
 class SetDeleteView(DeleteView):
-    model = Set
+    model = Timetable
     #template_name = ".html"
     success_url = reverse_lazy('set_list')
 
 # blocks
 
 class BlockCreateView(CreateView):
-    model = Block
+    model = Event
     fields = "__all__"
     #template_name = ".html"
 
     def get_initial(self):
         initial = super().get_initial()
         # set the value of the field to the 'set_id' url parameter
-        initial['set'] = Set.objects.get(id=self.kwargs['set_id'])
+        initial['set'] = Timetable.objects.get(id=self.kwargs['set_id'])
         return initial
 
     def get_context_data(self, **kwargs):
@@ -71,7 +71,7 @@ class BlockCreateView(CreateView):
         return reverse('set_detail', kwargs={'pk': self.object.set_id,})
 
 class BlockUpdateView(UpdateView):
-    model = Block
+    model = Event
     fields = "__all__"
     # template_name = ".html"
 
@@ -92,7 +92,7 @@ class BlockUpdateView(UpdateView):
         return reverse('set_detail', kwargs={'pk': self.object.set_id})
 
 class BlockDeleteView(DeleteView):
-    model = Block
+    model = Event
     # template_name = ".html"
 
     def get_success_url(self):

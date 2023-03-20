@@ -5,12 +5,12 @@ register = admin.site.register
 
 from . import forms, models
 
-register(models.Set)
+register(models.Timetable)
 
-@admin.register(models.Block)
+@admin.register(models.Event)
 class BlockAdmin(admin.ModelAdmin):
 
-    form = forms.BlockForm
+    form = forms.EventForm
 
     @admin.display(description='Day')
     def admin_day(self, obj):

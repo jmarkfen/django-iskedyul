@@ -1,5 +1,5 @@
 from re import DOTALL
-from .models import Block
+from .models import Event
 import datetime as dt
 
 t1 = dt.datetime.strptime('12:00:00', '%H:%M:%S')
@@ -39,7 +39,7 @@ class Cell:
         self.text = text
         self.tags = tags
 
-# blocks: queryset containing blocks (block_set.all() or block_set.filter())
+# blocks: queryset containing blocks (event_set.all() or event_set.filter())
 # returns a dictionary with days as keys and blocks as values
 def day_dict(blocks):
     time_rows = {}
