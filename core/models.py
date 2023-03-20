@@ -50,13 +50,15 @@ class Set(models.Model):
         end_time = datetime.time(20, 30)
         # generate time_ranges
         time_ranges = []
+        time_ranges_labels = []
         current_time = start_time
         while current_time <= end_time:
             new_time = time_add_minutes(current_time, interval)
             time_ranges.append((current_time, new_time))
+            time_ranges_labels.append(str(current_time) + '-' + str(new_time))
             current_time = new_time
-        # create queryset with events sorted by start_time
-        qs = self.block_set.all().order_by('start_time')
+        # create queryset with events sorted by start_time then day
+        qs = self.block_set.all().order_by('start_time', 'day')
         # create when clauses for case
         whens = []
         for t1, t2 in time_ranges:
@@ -72,6 +74,7 @@ class Set(models.Model):
             )
         ).values('time_range', 'text', 'day', 'start_time', 'end_time')
         # within each group, sort events by day
+        # TODO: test blocks with same day and time range
         # return queryset
         return qs
         #pass
