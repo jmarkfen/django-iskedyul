@@ -121,8 +121,6 @@ class WeekDays(models.IntegerChoices):
     SATURDAY = 6, _('Saturday')
     SUNDAY = 7, _('Sunday')
 
-    __empty__ = _('(Unknown)')
-
 
 DEFAULT_DAYS = ('Monday', 'Tuesday','Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday')
 
@@ -137,15 +135,7 @@ class Event(models.Model):
     text = models.CharField(_("text"), max_length=50)
     start_time = models.TimeField(default=datetime.time(00, 00), auto_now=False, auto_now_add=False)
     end_time = models.TimeField(default=datetime.time(00, 00), auto_now=False, auto_now_add=False)
-    day = models.CharField(max_length=50, choices=[
-        ('Mon', _('Monday')),
-        ('Tue', _('Tuesday')),
-        ('Wed', _('Wednesday')),
-        ('Thu', _('Thursday')),
-        ('Fri', _('Friday')),
-        ('Sat', _('Saturday')),
-        ('Sun', _('Sunday')),
-    ])
+    day = models.CharField(max_length=50, choices=WeekDays.choices)
 
     # class Meta:
     #     verbose_name = _("event")

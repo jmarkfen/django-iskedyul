@@ -12,11 +12,11 @@ from . import oop
 class TestView(g.TemplateView):
     template_name = "core/test.html"
 
-class SetListView(ListView):
+class TimetableListView(ListView):
     model = Timetable
     template_name = "core/set_list.html"
 
-class SetCreateView(CreateView):
+class TimetableCreateView(CreateView):
     model = Timetable
     fields = "__all__"
     #template_name = ".html"
@@ -24,7 +24,7 @@ class SetCreateView(CreateView):
     def get_success_url(self):
         return reverse('set_list')
 
-class SetDetailView(DetailView):
+class TimetableDetailView(DetailView):
     model = Timetable
     template_name = "core/set_detail.html"
 
@@ -36,19 +36,19 @@ class SetDetailView(DetailView):
         return context
     
 
-class SetUpdateView(UpdateView):
+class TimetableUpdateView(UpdateView):
     model = Timetable
     fields = "__all__"
     #template_name = "core/set_form.html"
 
-class SetDeleteView(DeleteView):
+class TimetableDeleteView(DeleteView):
     model = Timetable
     #template_name = ".html"
     success_url = reverse_lazy('set_list')
 
 # blocks
 
-class BlockCreateView(CreateView):
+class EventCreateView(CreateView):
     model = Event
     fields = "__all__"
     #template_name = ".html"
@@ -70,7 +70,7 @@ class BlockCreateView(CreateView):
         # sets/<int:pk>/
         return reverse('set_detail', kwargs={'pk': self.object.set_id,})
 
-class BlockUpdateView(UpdateView):
+class EventUpdateView(UpdateView):
     model = Event
     fields = "__all__"
     # template_name = ".html"
@@ -91,7 +91,7 @@ class BlockUpdateView(UpdateView):
     def get_success_url(self):
         return reverse('set_detail', kwargs={'pk': self.object.set_id})
 
-class BlockDeleteView(DeleteView):
+class EventDeleteView(DeleteView):
     model = Event
     # template_name = ".html"
 
