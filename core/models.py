@@ -6,13 +6,14 @@ from django.db.models import Case, CharField, Count, F, Value, When
 from django.db.models.functions import Trunc
 # from .oop import time_add_minutes
 
-# add minutes to a time object
 def time_add_minutes(initial_time, minutes):
+    """ add minutes to a time object """
     t = datetime.datetime.strptime(f'{initial_time.hour}:{initial_time.minute}:{initial_time.second}', '%H:%M:%S')
     m = datetime.datetime.strptime(f'00:{minutes}:00', '%H:%M:%S')
     time_zero = datetime.datetime.strptime('00:00:00', '%H:%M:%S')
     result =  (t - time_zero + m).time()
     return result
+
 
 # Create your models here.
 
@@ -32,40 +33,44 @@ class Set(models.Model):
     def get_absolute_url(self):
         return reverse("set_detail", kwargs={"pk": self.pk})
 
-    # returns a 2x2 matrix where the rows are start times and days are columns
-    # usage: Set.get_matrix()
+    def get_time_ranges(self):
+        """ generate time ranges based on interval """
+        # TODO: replace with interval as a Set field
+        interval = 30
+        # set start time
+        start_time = datetime.time(00,00)
+        # set end time (last row will be +30 min)
+        end_time = datetime.time(20, 00)
+        # generate time_ranges
+        time_ranges = []
+        current_time = start_time
+        while current_time <= end_time:
+            new_time = time_add_minutes(current_time, interval)
+            time_ranges.append((current_time, new_time, str(current_time) + '-' + str(new_time)))
+            current_time = new_time
+        return time_ranges
+
     def get_matrix(self):
+        """ returns a 2x2 matrix where the rows are start times and days are columns 
+            usage: Set.objects.get(pk=id).get_matrix()
+        """
         # step 1: group into start times
         # step 2: for each group, sort elements by day
         # step 3: mark conflicts by checking each group for events in the same day
         # step 4: create matrixq
         #         for conflicts, insert a new column to put the second item
         #         also insert columns on the same index on other rows
-        # set interval
-        # TODO: replace with interval as a Set field
-        interval = 30
-        # set start time
-        start_time = datetime.time(00,00)
-        # set end time
-        end_time = datetime.time(20, 30)
         # generate time_ranges
-        time_ranges = []
-        time_ranges_labels = []
-        current_time = start_time
-        while current_time <= end_time:
-            new_time = time_add_minutes(current_time, interval)
-            time_ranges.append((current_time, new_time))
-            time_ranges_labels.append(str(current_time) + '-' + str(new_time))
-            current_time = new_time
+        time_ranges = self.get_time_ranges()
         # create queryset with events sorted by start_time then day
         qs = self.block_set.all().order_by('start_time', 'day')
-        # create when clauses for case
+        # create when clauses for annotating time ranges
         whens = []
-        for t1, t2 in time_ranges:
+        for t1, t2, label in time_ranges:
             # when condition then label
             # TODO: format time label
-            whens.append(When(start_time__gte=t1, start_time__lt=t2, then=Value(str(t1) + ' - ' + str(t2))))
-        # create queryset with events grouped by time_ranges
+            whens.append(When(start_time__gte=t1, start_time__lt=t2, then=Value(label)))
+        # annotate queryset with time ranges
         qs = qs.annotate(
             time_range=Case(
                 *whens,
@@ -73,12 +78,27 @@ class Set(models.Model):
                 output_field=models.CharField(),
             )
         ).values('time_range', 'text', 'day', 'start_time', 'end_time')
-        # within each group, sort events by day
+        # annotate queryset with conflict
+
         # TODO: test blocks with same day and time range
         # return queryset
         return qs
-        #pass
-
+        
+    def get_rows(self):
+        """ get rows sorted by time ranges """
+        labels = [t[2] for t in self.get_time_ranges()]
+        matrix = self.get_matrix()
+        rows = []
+        for label in labels:
+            # get only records in label time range
+            m = matrix.filter(time_range=label)
+            # count number of records
+            m_count = m.count()
+            # annotate the count to the records
+            m_annot = m.annotate(range_count=Value(label, models.CharField()))
+            # append to label and the queryset to rows
+            rows.append((label, m_annot))
+        return rows
 
 class DayDefaults(models.TextChoices):
     MONDAY = 'Monday'

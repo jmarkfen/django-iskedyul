@@ -20,10 +20,10 @@
 - [ ] style schedule details
 - [ ] edit event - display on same page, on the side
 - [x] edit event - display appropriate day widget
-- [ ] edit event - display appropriate time widget
+- [x] edit event - display appropriate time widget
     - find a template that allows time input in hours and minutes (depending on format)
 
 ## Priority
 
+- ~~time input widget~~
 - time rows
-- time input widget
