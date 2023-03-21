@@ -5,17 +5,7 @@ from django.urls import reverse
 from django.db.models import Case, CharField, Count, F, Value, When
 from django.db.models.functions import Trunc
 from django.core.validators import MinValueValidator, MaxValueValidator
-from . import helpers as hp
-# from .oop import time_add_minutes
-
-def time_add_minutes(initial_time, minutes):
-    """ add minutes to a time object """
-    t = datetime.datetime.strptime(f'{initial_time.hour}:{initial_time.minute}:{initial_time.second}', '%H:%M:%S')
-    m = datetime.datetime.strptime(f'00:{minutes}:00', '%H:%M:%S')
-    time_zero = datetime.datetime.strptime('00:00:00', '%H:%M:%S')
-    result =  (t - time_zero + m).time()
-    return result
-
+from . import helpers
 
 # Create your models here.
 
@@ -47,8 +37,8 @@ class Timetable(models.Model):
         time_ranges = []
         current_time = start_time
         while current_time <= end_time:
-            new_time = time_add_minutes(current_time, self.interval)
-            time_ranges.append((current_time, new_time, str(current_time) + '-' + str(new_time)))
+            new_time = helpers.add_minutes(current_time, self.interval)
+            time_ranges.append({'start': current_time, 'end': new_time, 'label': str(current_time) + '-' + str(new_time)})
             current_time = new_time
         return time_ranges
 
@@ -86,23 +76,41 @@ class Timetable(models.Model):
         
     def get_rows(self):
         """ get rows sorted by time ranges """
-        labels = [t[2] for t in self.get_time_ranges()]
+        labels = [t['label'] for t in self.get_time_ranges()]
         matrix = self.by_time_range()
         rows = []
         for label in labels:
             # get only records in the time range
             m = matrix.filter(time_range=label)
             # count records with identical time_ranges
-            m_annot = hp.count(m, 'time_range', label)
+            m_annot = helpers.count_field(m, 'time_range', label)
             
             rows.append({'label': label, 'queryset': m_annot})
         return rows
 
     def get_table(self):
         """ generate table data for html template """
-        qs = self.by_time_range
-        
-        pass
+        # create queryset with events sorted by start_time then day
+        qs = self.event_set.all().order_by('start_time', 'day')
+        # get time ranges
+        ranges = self.get_time_ranges()
+        result = []
+        for r in ranges:
+            filter_kwargs = {'start_time__gte': r['start'], 'start_time__lt': r['end']}
+            # filter by time range
+            cf = helpers.countif(qs, **filter_kwargs)
+            range_cr = helpers.CountResult('time_range', r['label'], cf['count'], cf['group'])
+            # get list of weekday values
+            days = [x[0] for x in WeekDays.choices]
+            # group by day
+            day_groups = helpers.count_group(range_cr.group, 'day', days)
+            # replace range group with a list of groups by day
+            range_cr.group = day_groups
+            # TODO: add rowspans to each item in day group
+            # TODO: calculate rowspan from start_time and end_time
+            result.append(range_cr)
+        # TODO: add table headers
+        return result
 
 # put inside block/event
 class WeekDays(models.IntegerChoices):
