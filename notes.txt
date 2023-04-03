@@ -63,6 +63,36 @@ create test template
 - sort each group by day [groupby() -> sort_day(dict):for e in dict sort e.x by x.day desc]
 - if there are records within the time range that has the same day, mark those records as conflicting [for e in len(dict.e)-1 then set conflict if [x-1].day == [x].day]
 
+## Timetable as object
+
+structure of a timetable:
+
+table->row->column
+
+row 1: ['time', weekday headers]
+
+row n: [time range header, event cells]
+
+    table = [
+        ['time', 'monday', 'tuesday',..], # row 1
+        [time range 1, mon event, tue event,..], # row n
+        [time range 2, mon event, tue event,..], # row n
+    ]
+
+attributes of a timetable:
+- time range headers
+    - index
+    - string value
+- weekday headers
+    - index
+    - string value
+    - column span
+- event cells
+    - event text
+    - row
+    - column
+    - row span
+
 ## Incremental development
 
 v.1 

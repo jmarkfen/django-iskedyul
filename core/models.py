@@ -9,6 +9,17 @@ from . import helpers
 
 # Create your models here.
 
+
+# put inside block/event
+class WeekDays(models.IntegerChoices):
+    MONDAY = 1, _('Monday')
+    TUESDAY = 2, _('Tuesday')
+    WEDNESDAY = 3, _('Wednesday')
+    THURSDAY = 4, _('Thursday')
+    FRIDAY = 5, _('Friday')
+    SATURDAY = 6, _('Saturday')
+    SUNDAY = 7, _('Sunday')
+
 class Timetable(models.Model):
 
     title = models.CharField(max_length=50)
@@ -56,10 +67,10 @@ class Timetable(models.Model):
         qs = self.event_set.all().order_by('start_time', 'day')
         # create when clauses for annotating time ranges
         whens = []
-        for t1, t2, label in time_ranges:
+        for r in time_ranges:
             # when condition then label
             # TODO: format time label
-            whens.append(When(start_time__gte=t1, start_time__lt=t2, then=Value(label)))
+            whens.append(When(start_time__gte=r['start'], start_time__lt=r['end'], then=Value(r['label'])))
         # annotate queryset with time ranges
         qs = qs.annotate(
             time_range=Case(
@@ -112,15 +123,53 @@ class Timetable(models.Model):
         # TODO: add table headers
         return result
 
-# put inside block/event
-class WeekDays(models.IntegerChoices):
-    MONDAY = 1, _('Monday')
-    TUESDAY = 2, _('Tuesday')
-    WEDNESDAY = 3, _('Wednesday')
-    THURSDAY = 4, _('Thursday')
-    FRIDAY = 5, _('Friday')
-    SATURDAY = 6, _('Saturday')
-    SUNDAY = 7, _('Sunday')
+    def get_matrix(self) -> dict:
+        """ generate matrix data for rendering timetable """
+        # get events sorted by start_time then day
+        events = self.event_set.all().order_by('start_time', 'day')
+        # get time ranges
+        time_ranges = self.get_time_ranges()
+        # map ranges start
+        rows = {time_ranges[i]['start']: i for i in range(len(time_ranges))}
+        # map weekday values
+        cols = {num: name for num, name in WeekDays.choices}
+        # create template time ranges
+        template = lambda: [None for i in range(len(time_ranges))]
+        # initialize matrix
+        matrix = {
+            cols[1]: [template(), ],
+            cols[2]: [template(), ],
+            cols[3]: [template(), ],
+            cols[4]: [template(), ],
+            cols[5]: [template(), ],
+            cols[6]: [template(), ],
+            cols[7]: [template(), ],
+        }
+        for e in events:
+            subcol = 0
+            row_index = rows[e.start_time]
+            col_index = cols[e.day]
+            # check if no element exists the specified indices of event
+            empty_index = matrix[col_index][subcol][row_index] is None
+            while not empty_index:
+                # check if end of list
+                if subcol == len(matrix[col_index]) - 1:
+                    # add new subcolumn
+                    matrix[col_index].append(template())
+                    # increment subcol to place event at new subcolumn
+                    subcol += 1
+                    # put event in place
+                    matrix[col_index][subcol][row_index] = e
+                else:
+                    # increment subcol to check the next subcolumn
+                    subcol += 1
+                    # check if no element exists at the next subcolumn
+                    empty_index = matrix[col_index][subcol][row_index] is None
+            else:
+                # put event in place if not occupied
+                matrix[col_index][subcol][row_index] = e
+        return matrix
+
                 
 class Event(models.Model):
 
@@ -139,4 +188,3 @@ class Event(models.Model):
 
     def get_absolute_url(self):
         return reverse("block_detail", kwargs={"pk": self.pk})
-
