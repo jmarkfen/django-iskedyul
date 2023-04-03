@@ -1,3 +1,29 @@
+{% comment %} 
+s.0
+	<time range>
+	0.field
+	0.value
+	0.count
+	0.group
+	0.group.0
+		<day>
+		0.field
+		0.value
+		0.count
+		0.group
+		0.group.0
+			<event>
+
+time range -> day -> event
+
+rules:
+row first cell: s.0.value # time range
+row second cell:
+if s.0.group.0.value == 1 # day
+for x in range(s.0.group.0.count) #
+        <new cell> s.0.group.0.group.text # event text
+{% endcomment %}
+
 <table>
     <tr>
         <th>TIME</th>
@@ -8,7 +34,7 @@
         <th>FRIDAY</th>
         <th>SATURDAY</th>
         <th>SUNDAY</th>
-{% for row in rows %}
+{% for row in range 10 %}
     <tr>
         <td>{{ row.label }}</td>
     {% for event in row.queryset %}
@@ -19,6 +45,9 @@
     </tr>
 {% endfor %}
 </table>
+
+
+
 <hr>
 <table>
     <tr>

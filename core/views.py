@@ -33,6 +33,7 @@ class TimetableDetailView(DetailView):
         context['by_days'] = oop.day_dict(self.object.event_set.all())
         context['row_labels'] = self.object.get_time_ranges()
         context['rows'] = self.object.get_rows()
+        context['matrix'] = self.object.get_matrix()
         return context
     
 
