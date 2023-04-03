@@ -34,6 +34,8 @@ class TimetableDetailView(DetailView):
         context['row_labels'] = self.object.get_time_ranges()
         context['rows'] = self.object.get_rows()
         context['matrix'] = self.object.get_matrix()
+        # TODO
+        context['row_count'] = range(5)
         return context
     
 
