@@ -199,7 +199,7 @@ class Timetable(models.Model):
                 if row_index + i < len(matrix[col_index][subcol_index]): 
                     matrix[col_index][subcol_index][row_index + i] = {'data': True, 'rowspan': 1}
             # also set the rowspan of the column headers
-            matrix['header_rowspans'][day_map[e.day]] = row_count
+            matrix['header_rowspans'][day_map[e.day]] = len(matrix[col_index])
 
         return matrix
 

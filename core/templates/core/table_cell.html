@@ -1,0 +1,12 @@
+{% comment %} 
+day_key - matrix['day']
+row_index - int
+{% endcomment %}
+{% load index %}
+{% for subcol in matrix|index:day_key %}
+    {% with subcol|index:row_index as cell %}
+    {% if cell.data is not True %}
+    <td rowspan={{ cell.rowspan }}>{{ cell.data }}</td>
+    {% endif %}
+    {% endwith %}
+{% endfor %}

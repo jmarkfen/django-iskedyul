@@ -33,24 +33,27 @@ for x in range(s.0.group.0.count) #
         <th colspan={{ matrix.header_rowspans.Thursday }}>THURSDAY</th>
         <th colspan={{ matrix.header_rowspans.Friday }}>FRIDAY</th>
         <th colspan={{ matrix.header_rowspans.Saturday }}>SATURDAY</th>
-        <th colspan={{ matrix.header_rowspans.Sunday }}>SUNDAY</th> 
+        <th colspan={{ matrix.header_rowspans.Sunday }}>SUNDAY</th>
     </tr>
 {% for row in row_labels %}
     <tr>
         <td>{{ row.label }}</td>
-    {% for col in matrix.Monday %}
-        {% with col|index:forloop.parentloop.counter0 as cell %}
-        {% if cell.data is not True %}
-        <td rowspan={{ cell.rowspan }}>{{ cell.data }}</td>
-        {% endif %}
-        {% endwith %}
-    {% endfor %}
+        {% include 'core/table_cell.html' with day_key='Monday' row_index=forloop.counter0 %}
     </tr>
 {% endfor %}
 </table>
+<table>
+{% for row in  row_labels %}{% with forloop.counter0 as row_index %}
+<tr>
+    {% for key in matrix.header_rowspans.keys %}
+            {% for subcol in matrix|index:key %}
 
-
-
+            <td>{{ subcol|index:row_index }}</td>
+            {% endfor %}
+        {% endfor %}
+</tr>
+{% endwith %}{% endfor %}
+</table>
 <hr>
 <table>
     <tr>
