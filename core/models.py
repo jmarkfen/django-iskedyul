@@ -143,8 +143,11 @@ class Timetable(models.Model):
             for i in time_count:
                 ns.append(None)
             return ns
+        # create dict of WeekDay
+
         # initialize matrix
         matrix = {
+            'header_rowspans': {name: 1 for num, name in WeekDays.choices},
             day_map[1]: [nones(), ],
             day_map[2]: [nones(), ],
             day_map[3]: [nones(), ],
@@ -195,6 +198,8 @@ class Timetable(models.Model):
             for i in range(1, row_count):
                 if row_index + i < len(matrix[col_index][subcol_index]): 
                     matrix[col_index][subcol_index][row_index + i] = {'data': True, 'rowspan': 1}
+            # also set the rowspan of the column headers
+            matrix['header_rowspans'][day_map[e.day]] = row_count
 
         return matrix
 

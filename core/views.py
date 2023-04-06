@@ -35,7 +35,6 @@ class TimetableDetailView(DetailView):
         context['rows'] = self.object.get_rows()
         matrix = self.object.get_matrix()
         context['matrix'] = matrix
-        context['weekdays'] = [name for num, name in WeekDays.choices]
         tb = []
         # matrix[column][subcolumn][row]
         context['tb'] = tb

@@ -27,13 +27,13 @@ for x in range(s.0.group.0.count) #
 <table>
     <tr>
         <th>TIME</th>
-        <th>MONDAY</th>
-        <th>TUESDAY</th>
-        <th>WEDNESDAY</th>
-        <th>THURSDAY</th>
-        <th>FRIDAY</th>
-        <th>SATURDAY</th>
-        <th>SUNDAY</th>
+        <th colspan={{ matrix.header_rowspans.Monday }}>MONDAY</th>
+        <th colspan={{ matrix.header_rowspans.Tuesday }}>TUESDAY</th>
+        <th colspan={{ matrix.header_rowspans.Wednesday }}>WEDNESDAY</th>
+        <th colspan={{ matrix.header_rowspans.Thursday }}>THURSDAY</th>
+        <th colspan={{ matrix.header_rowspans.Friday }}>FRIDAY</th>
+        <th colspan={{ matrix.header_rowspans.Saturday }}>SATURDAY</th>
+        <th colspan={{ matrix.header_rowspans.Sunday }}>SUNDAY</th> 
     </tr>
 {% for row in row_labels %}
     <tr>
