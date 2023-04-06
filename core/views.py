@@ -4,7 +4,7 @@ from django.urls import resolve, reverse, reverse_lazy
 from django.views import generic as g
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from bootstrap_datepicker_plus.widgets import TimePickerInput
-from .models import Timetable, Event
+from .models import Timetable, Event, WeekDays
 from . import oop
 
 # Create your views here.
@@ -33,8 +33,12 @@ class TimetableDetailView(DetailView):
         context['by_days'] = oop.day_dict(self.object.event_set.all())
         context['row_labels'] = self.object.get_time_ranges()
         context['rows'] = self.object.get_rows()
-        context['matrix'] = self.object.get_matrix()
-        # TODO
+        matrix = self.object.get_matrix()
+        context['matrix'] = matrix
+        context['weekdays'] = [name for num, name in WeekDays.choices]
+        tb = []
+        # matrix[column][subcolumn][row]
+        context['tb'] = tb
         context['row_count'] = range(5)
         return context
     

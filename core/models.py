@@ -51,7 +51,7 @@ class Timetable(models.Model):
             new_time = helpers.add_minutes(current_time, self.interval)
             time_ranges.append({'start': current_time, 'end': new_time, 'label': str(current_time) + '-' + str(new_time)})
             current_time = new_time
-        return time_ranges
+        return tuple(time_ranges)
 
     def by_time_range(self):
         """ returns a queryset annotated with the time range """
@@ -132,42 +132,70 @@ class Timetable(models.Model):
         # map ranges start
         rows = {time_ranges[i]['start']: i for i in range(len(time_ranges))}
         # map weekday values
-        cols = {num: name for num, name in WeekDays.choices}
-        # create template time ranges
-        template = lambda: [None for i in range(len(time_ranges))]
+        day_map = {num: name for num, name in WeekDays.choices}
+        # map start times and end times
+        time_count = range(len(time_ranges))
+        start_time_map = {time_ranges[i]['start']: i for i in time_count}
+        end_time_map = {time_ranges[i]['end']: i for i in time_count}
+        # create list of nones
+        def nones():
+            ns = []
+            for i in time_count:
+                ns.append(None)
+            return ns
         # initialize matrix
         matrix = {
-            cols[1]: [template(), ],
-            cols[2]: [template(), ],
-            cols[3]: [template(), ],
-            cols[4]: [template(), ],
-            cols[5]: [template(), ],
-            cols[6]: [template(), ],
-            cols[7]: [template(), ],
+            day_map[1]: [nones(), ],
+            day_map[2]: [nones(), ],
+            day_map[3]: [nones(), ],
+            day_map[4]: [nones(), ],
+            day_map[5]: [nones(), ],
+            day_map[6]: [nones(), ],
+            day_map[7]: [nones(), ],
         }
         for e in events:
-            subcol = 0
+            # get key from event day
+            col_index = day_map[e.day]
+            subcol_index = 0
+            # get key from event start time
+            start_time_index = start_time_map[e.start_time]
+            # get key from event end time
+            end_time_index = end_time_map[e.end_time]
             row_index = rows[e.start_time]
-            col_index = cols[e.day]
-            # check if no element exists the specified indices of event
-            empty_index = matrix[col_index][subcol][row_index] is None
-            while not empty_index:
-                # check if end of list
-                if subcol == len(matrix[col_index]) - 1:
+            # TODO calculate rows from e.start_time and e.end_time
+            t1 = e.start_time
+            t2 = e.end_time
+            # get the difference in minutes between t1 and t2 then divide by intervala
+            t1_minutes = t1.hour * 60 + t1.minute
+            t2_minutes = t2.hour * 60 + t2.minute
+            tdiff = t2_minutes - t1_minutes
+            row_count = int(tdiff / self.interval)
+            # check if the current subcolumn is already occupied
+            # TODO change already_occupied to a list of indices
+            def none_occupied(subcol):
+                """ check if any row is already occupied. Returns True if all rows are not occupied. """
+                not_occupied = []
+                for i in range(row_count):
+                    if row_index + i < len(matrix[col_index][subcol_index]): 
+                        not_occupied.append(matrix[col_index][subcol][row_index + i] is None)
+                return all(not_occupied)
+            
+            while not none_occupied(subcol_index):
+                # if current subcolumn is the last one
+                if subcol_index == len(matrix[col_index]) - 1:
                     # add new subcolumn
-                    matrix[col_index].append(template())
-                    # increment subcol to place event at new subcolumn
-                    subcol += 1
-                    # put event in place
-                    matrix[col_index][subcol][row_index] = e
-                else:
-                    # increment subcol to check the next subcolumn
-                    subcol += 1
-                    # check if no element exists at the next subcolumn
-                    empty_index = matrix[col_index][subcol][row_index] is None
-            else:
-                # put event in place if not occupied
-                matrix[col_index][subcol][row_index] = e
+                    matrix[col_index].append(nones())
+
+                # change index to point at next subcolumn
+                subcol_index += 1
+            
+            # put event in place once there is available space, also put the rowspan
+            matrix[col_index][subcol_index][row_index] = {'data': e, 'rowspan': row_count}
+            # also set the other positions
+            for i in range(1, row_count):
+                if row_index + i < len(matrix[col_index][subcol_index]): 
+                    matrix[col_index][subcol_index][row_index + i] = {'data': True, 'rowspan': 1}
+
         return matrix
 
                 

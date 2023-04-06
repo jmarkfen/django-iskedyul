@@ -144,3 +144,4 @@ class TimetableDisplay():
 
 def to_matrix(queryset, rows, cols):
     pass
+
