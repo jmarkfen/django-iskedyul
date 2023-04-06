@@ -38,44 +38,13 @@ for x in range(s.0.group.0.count) #
 {% for row in row_labels %}
     <tr>
         <td>{{ row.label }}</td>
-        {% include 'core/table_cell.html' with day_key='Monday' row_index=forloop.counter0 %}
+        {% include 'core/table_cell.html' with day_key='Monday' row_index=forloop.counter0 timetable_id=object.id %}
+        {% include 'core/table_cell.html' with day_key='Tuesday' row_index=forloop.counter0 timetable_id=object.id %}
+        {% include 'core/table_cell.html' with day_key='Wednesday' row_index=forloop.counter0 timetable_id=object.id %}
+        {% include 'core/table_cell.html' with day_key='Thursday' row_index=forloop.counter0 timetable_id=object.id %}
+        {% include 'core/table_cell.html' with day_key='Friday' row_index=forloop.counter0 timetable_id=object.id %}
+        {% include 'core/table_cell.html' with day_key='Saturday' row_index=forloop.counter0 timetable_id=object.id %}
+        {% include 'core/table_cell.html' with day_key='Sunday' row_index=forloop.counter0 timetable_id=object.id %}
     </tr>
 {% endfor %}
-</table>
-<table>
-{% for row in  row_labels %}{% with forloop.counter0 as row_index %}
-<tr>
-    {% for key in matrix.header_rowspans.keys %}
-            {% for subcol in matrix|index:key %}
-
-            <td>{{ subcol|index:row_index }}</td>
-            {% endfor %}
-        {% endfor %}
-</tr>
-{% endwith %}{% endfor %}
-</table>
-<hr>
-<table>
-    <tr>
-        <th></th>
-        {# column headers #}
-        <th>MONDAY</th>
-        <th>TUESDAY</th>
-        <th>WEDNESDAY</th>
-        <th>THURSDAY</th>
-        <th>FRIDAY</th>
-        <th>SATURDAY</th>
-        <th>SUNDAY</th>
-    <tr>
-        <th>time</th>
-        {% for block in by_days.values %}
-            {% if block.text %}
-                <td>
-                    <a href="{% url 'block_update' object.id block.id %}">{{ block.text }}</a>
-                </td>
-            {% else %}
-                    <td></td>
-            {% endif %}
-        {% endfor %}
-    </tr>
 </table>

@@ -1,12 +1,19 @@
 {% comment %} 
 day_key - matrix['day']
 row_index - int
+timetable_id - int
 {% endcomment %}
 {% load index %}
 {% for subcol in matrix|index:day_key %}
-    {% with subcol|index:row_index as cell %}
-    {% if cell.data is not True %}
-    <td rowspan={{ cell.rowspan }}>{{ cell.data }}</td>
+{% with subcol|index:row_index as cell %}
+    {% if cell %}
+        {% if cell.data is not True%}
+    <td rowspan={{ cell.rowspan }}>
+        <a href="{% url 'block_update' timetable_id cell.data.id %}">{{ cell.data.text }}</a>
+    </td>
+        {% endif %}
+    {% else %}
+    <td></td>
     {% endif %}
-    {% endwith %}
+{% endwith %}
 {% endfor %}
