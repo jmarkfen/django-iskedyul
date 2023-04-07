@@ -8,7 +8,7 @@ timetable_id - int
 {% with subcol|index:row_index as cell %}
     {% if cell %}
         {% if cell.data is not True%}
-    <td rowspan={{ cell.rowspan }}>
+    <td class="{{ cell.class }}" rowspan={{ cell.rowspan }}>
         <a href="{% url 'block_update' timetable_id cell.data.id %}">{{ cell.data.text }}</a>
     </td>
         {% endif %}

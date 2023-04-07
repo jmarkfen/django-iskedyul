@@ -194,6 +194,11 @@ class Timetable(models.Model):
             
             # put event in place once there is available space, also put the rowspan
             matrix[col_index][subcol_index][row_index] = {'data': e, 'rowspan': row_count}
+            # set the classes for the cell
+            if subcol_index > 0:
+                matrix[col_index][subcol_index][row_index]['class'] = 'cell-conflict'
+            else:
+                matrix[col_index][subcol_index][row_index]['class'] = 'cell'
             # also set the other positions
             for i in range(1, row_count):
                 if row_index + i < len(matrix[col_index][subcol_index]): 
