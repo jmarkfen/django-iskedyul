@@ -4,7 +4,7 @@ from django.urls import resolve, reverse, reverse_lazy
 from django.views import generic as g
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from bootstrap_datepicker_plus.widgets import TimePickerInput
-from .models import Set, Block
+from .models import Timetable, Event, WeekDays
 from . import oop
 
 # Create your views here.
@@ -12,51 +12,57 @@ from . import oop
 class TestView(g.TemplateView):
     template_name = "core/test.html"
 
-class SetListView(ListView):
-    model = Set
+class TimetableListView(ListView):
+    model = Timetable
     template_name = "core/set_list.html"
 
-class SetCreateView(CreateView):
-    model = Set
+class TimetableCreateView(CreateView):
+    model = Timetable
     fields = "__all__"
     #template_name = ".html"
 
     def get_success_url(self):
         return reverse('set_list')
 
-class SetDetailView(DetailView):
-    model = Set
+class TimetableDetailView(DetailView):
+    model = Timetable
     template_name = "core/set_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['by_days'] = oop.day_dict(self.object.block_set.all())
+        context['by_days'] = oop.day_dict(self.object.event_set.all())
         context['row_labels'] = self.object.get_time_ranges()
         context['rows'] = self.object.get_rows()
+        matrix = self.object.get_matrix()
+        context['matrix'] = matrix
+        tb = []
+        # matrix[column][subcolumn][row]
+        context['tb'] = tb
+        context['row_count'] = range(5)
         return context
     
 
-class SetUpdateView(UpdateView):
-    model = Set
+class TimetableUpdateView(UpdateView):
+    model = Timetable
     fields = "__all__"
     #template_name = "core/set_form.html"
 
-class SetDeleteView(DeleteView):
-    model = Set
+class TimetableDeleteView(DeleteView):
+    model = Timetable
     #template_name = ".html"
     success_url = reverse_lazy('set_list')
 
 # blocks
 
-class BlockCreateView(CreateView):
-    model = Block
+class EventCreateView(CreateView):
+    model = Event
     fields = "__all__"
     #template_name = ".html"
 
     def get_initial(self):
         initial = super().get_initial()
         # set the value of the field to the 'set_id' url parameter
-        initial['set'] = Set.objects.get(id=self.kwargs['set_id'])
+        initial['set'] = Timetable.objects.get(id=self.kwargs['set_id'])
         return initial
 
     def get_context_data(self, **kwargs):
@@ -70,8 +76,8 @@ class BlockCreateView(CreateView):
         # sets/<int:pk>/
         return reverse('set_detail', kwargs={'pk': self.object.set_id,})
 
-class BlockUpdateView(UpdateView):
-    model = Block
+class EventUpdateView(UpdateView):
+    model = Event
     fields = "__all__"
     # template_name = ".html"
 
@@ -91,8 +97,8 @@ class BlockUpdateView(UpdateView):
     def get_success_url(self):
         return reverse('set_detail', kwargs={'pk': self.object.set_id})
 
-class BlockDeleteView(DeleteView):
-    model = Block
+class EventDeleteView(DeleteView):
+    model = Event
     # template_name = ".html"
 
     def get_success_url(self):
