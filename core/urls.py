@@ -18,13 +18,13 @@ from . import views
 
 urlpatterns = [
     path("test", views.TestView.as_view(), name="test"),
-    path("sets/", views.TimetableListView.as_view(), name="set_list"),
-    path("sets/new/", views.TimetableCreateView.as_view(), name="set_create"),
-    path("sets/<int:pk>/", views.TimetableDetailView.as_view(), name="set_detail"),
-    path("sets/<int:pk>/edit/", views.TimetableUpdateView.as_view(), name="set_update"),
-    path("sets/<int:pk>/delete/", views.TimetableDeleteView.as_view(), name="set_delete"),
+    path("", views.TimetableListView.as_view(), name="set_list"),
+    path("table/new/", views.TimetableCreateView.as_view(), name="set_create"),
+    path("table/<int:pk>/", views.TimetableDetailView.as_view(), name="set_detail"),
+    path("table/<int:pk>/edit/", views.TimetableUpdateView.as_view(), name="set_update"),
+    path("table/<int:pk>/delete/", views.TimetableDeleteView.as_view(), name="set_delete"),
     # blocks
-    path("sets/<int:set_id>/blocks/new/", views.EventCreateView.as_view(), name="block_create"),
-    path("sets/<int:set_id>/blocks/<int:pk>/edit/", views.EventUpdateView.as_view(), name="block_update"),
-    path("sets/<int:set_id>/block/<int:pk>/delete/", views.EventDeleteView.as_view(), name="block_delete"),
+    path("table/<int:set_id>/event/new/", views.EventCreateView.as_view(), name="block_create"),
+    path("table/<int:set_id>/event/<int:pk>/edit/", views.EventUpdateView.as_view(), name="block_update"),
+    path("table/<int:set_id>/event/<int:pk>/delete/", views.EventDeleteView.as_view(), name="block_delete"),
 ]
