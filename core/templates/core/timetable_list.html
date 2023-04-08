@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% for set in object_list %}
+        <a href="{% url "timetable_detail" set.id %}">{{ set.title }}</a><br>
+    {% endfor %}
+    <a href="{% url "timetable_create" %}">new</a>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+title: {{ object.title }}<br>
+
+table:
+{% include 'core/timetable_detail_table.html' %}
+
+<a href="{% url 'timetable_update' object.id %}">Edit</a><br>
+<a href="{% url 'event_delete' object.id %}">add block</a><br>
+<a href="{% url 'timetable_delete' object.id %}">delete</a><br>
+<a href="{% url 'timetable_list' %}">go back</a>
+{% endblock %}

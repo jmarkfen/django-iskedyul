@@ -14,7 +14,7 @@ class TestView(g.TemplateView):
 
 class TimetableListView(ListView):
     model = Timetable
-    template_name = "core/set_list.html"
+    template_name = "core/timetable_list.html"
 
 class TimetableCreateView(CreateView):
     model = Timetable
@@ -22,11 +22,11 @@ class TimetableCreateView(CreateView):
     #template_name = ".html"
 
     def get_success_url(self):
-        return reverse('set_list')
+        return reverse('timetable_list')
 
 class TimetableDetailView(DetailView):
     model = Timetable
-    template_name = "core/set_detail.html"
+    template_name = "core/timetable_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -50,7 +50,7 @@ class TimetableUpdateView(UpdateView):
 class TimetableDeleteView(DeleteView):
     model = Timetable
     #template_name = ".html"
-    success_url = reverse_lazy('set_list')
+    success_url = reverse_lazy('timetable_list')
 
 # blocks
 
@@ -74,7 +74,7 @@ class EventCreateView(CreateView):
 
     def get_success_url(self):
         # sets/<int:pk>/
-        return reverse('set_detail', kwargs={'pk': self.object.set_id,})
+        return reverse('timetable_detail', kwargs={'pk': self.object.set_id,})
 
 class EventUpdateView(UpdateView):
     model = Event
@@ -95,11 +95,11 @@ class EventUpdateView(UpdateView):
         return context
 
     def get_success_url(self):
-        return reverse('set_detail', kwargs={'pk': self.object.set_id})
+        return reverse('timetable_detail', kwargs={'pk': self.object.set_id})
 
 class EventDeleteView(DeleteView):
     model = Event
     # template_name = ".html"
 
     def get_success_url(self):
-        return reverse('set_detail', kwargs={'pk': self.object.set_id})
+        return reverse('timetable_detail', kwargs={'pk': self.object.set_id})
