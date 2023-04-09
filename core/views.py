@@ -14,7 +14,7 @@ class TestView(g.TemplateView):
 
 class TableListView(ListView):
     model = Timetable
-    template_name = "core/table_list.html"
+    template_name = "core/timetable_list.html"
 
 class TableCreateView(CreateView):
     model = Timetable
@@ -26,7 +26,7 @@ class TableCreateView(CreateView):
 
 class TableDetailView(DetailView):
     model = Timetable
-    template_name = "core/table_detail.html"
+    template_name = "core/timetable_detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

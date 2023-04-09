@@ -3,7 +3,7 @@
 title: {{ object.title }}<br>
 
 table:
-{% include 'core/table_detail_table.html' %}
+{% include 'core/timetable_detail_table.html' %}
 
 <a href="{% url 'table_update' object.id %}">Edit</a><br>
 <a href="{% url 'event_delete' object.id %}">add block</a><br>
