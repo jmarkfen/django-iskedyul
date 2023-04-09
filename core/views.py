@@ -16,7 +16,7 @@ class TableListView(ListView):
     model = Timetable
     template_name = "core/table_list.html"
 
-class TimetableCreateView(CreateView):
+class TableCreateView(CreateView):
     model = Timetable
     fields = "__all__"
     #template_name = ".html"
@@ -24,7 +24,7 @@ class TimetableCreateView(CreateView):
     def get_success_url(self):
         return reverse('table_list')
 
-class TimetableDetailView(DetailView):
+class TableDetailView(DetailView):
     model = Timetable
     template_name = "core/table_detail.html"
 
@@ -42,12 +42,12 @@ class TimetableDetailView(DetailView):
         return context
     
 
-class TimetableUpdateView(UpdateView):
+class TableUpdateView(UpdateView):
     model = Timetable
     fields = "__all__"
     #template_name = "core/set_form.html"
 
-class TimetableDeleteView(DeleteView):
+class TableDeleteView(DeleteView):
     model = Timetable
     #template_name = ".html"
     success_url = reverse_lazy('table_list')
