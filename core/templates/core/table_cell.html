@@ -9,7 +9,7 @@ timetable_id - int
     {% if cell %}
         {% if cell.data is not True%}
     <td class="{{ cell.class }}" rowspan={{ cell.rowspan }}>
-        <a href="{% url 'block_update' timetable_id cell.data.id %}">{{ cell.data.text }}</a>
+        <a href="{% url 'event_update' timetable_id cell.data.id %}">{{ cell.data.text }}</a>
     </td>
         {% endif %}
     {% else %}

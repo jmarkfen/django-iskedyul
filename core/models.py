@@ -34,7 +34,7 @@ class Timetable(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("set_detail", kwargs={"pk": self.pk})
+        return reverse("table_detail", kwargs={"pk": self.pk})
 
     def get_time_ranges(self):
         """ generate time ranges based on interval """
