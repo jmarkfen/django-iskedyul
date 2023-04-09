@@ -77,7 +77,7 @@ class EventCreateView(CreateView):
 
     def get_success_url(self):
         # sets/<int:pk>/
-        return reverse('table_detail', kwargs={'pk': self.object.set_id,})
+        return reverse('table_detail', kwargs={'pk': self.object.timetable_id,})
 
 class EventUpdateView(UpdateView):
     model = Event
@@ -98,11 +98,11 @@ class EventUpdateView(UpdateView):
         return context
 
     def get_success_url(self):
-        return reverse('table_detail', kwargs={'pk': self.object.set_id})
+        return reverse('table_detail', kwargs={'pk': self.object.timetable_id})
 
 class EventDeleteView(DeleteView):
     model = Event
     # template_name = ".html"
 
     def get_success_url(self):
-        return reverse('table_detail', kwargs={'pk': self.object.set_id})
+        return reverse('table_detail', kwargs={'pk': self.object.timetable_id})

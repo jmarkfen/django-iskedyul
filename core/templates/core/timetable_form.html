@@ -1,5 +1,32 @@
-<form method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit">
-</form>
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 %}
+
+{% block head %}
+    {{ form.media }}
+{% endblock %}
+
+{% block content %}
+
+<div>
+    <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+
+        {% if object %}
+            {% url 'table_detail' object.id as table_detail %}
+            {% bootstrap_button "Return" button_type="link" button_class="btn-dark" href=table_detail %}
+            {% url 'table_delete' object.id  as table_delete %}
+            {% bootstrap_button "Delete" button_type="link" button_class="btn-dark" href=table_delete %}     
+        {% else %}
+            {% url 'table_list' as table_list %}
+            {% bootstrap_button "Return" button_type="link" button_class="btn-dark" href=table_list %}
+        {% endif %}
+
+        {% bootstrap_button "Save" button_type="submit" button_class="btn-dark" %}
+    </form>
+    
+
+</div>
+
+{% endblock %}

@@ -1,12 +1,19 @@
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
 {% block content %}
-title: {{ object.title }}<br>
+{% url 'table_list' as table_list %}
+{% url 'event_create' object.id as event_create %}
+{% url 'table_delete' object.id as table_delete %}
+<div>
+    <a href="{% url 'table_update' object.id %}">{{ object.title }}</a>
+    {% bootstrap_button "Return" button_type="link" button_class="btn-dark" href=table_list %}
+    {% bootstrap_button "Add event" button_type="link" button_class="btn-dark" href=event_create %}
+    {% bootstrap_button "Delete" button_type="link" button_class="btn-dark" href=table_delete %}
+</div>
+<div>
+    <div class="table-responsive">
+        {% include 'core/timetable_detail_table.html' %}
+    </div>
+</div>
 
-table:
-{% include 'core/timetable_detail_table.html' %}
-
-<a href="{% url 'table_update' object.id %}">Edit</a><br>
-<a href="{% url 'event_create' object.id %}">add block</a><br>
-<a href="{% url 'table_delete' object.id %}">delete</a><br>
-<a href="{% url 'table_list' %}">go back</a>
 {% endblock %}

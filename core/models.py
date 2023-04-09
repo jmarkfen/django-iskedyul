@@ -137,9 +137,9 @@ class Timetable(models.Model):
             col_index = day_map[e.day]
             subcol_index = 0
             # get key from event start time
-            start_time_index = start_time_map[e.start_time]
+            start_time_index = start_time_map[e.start_time] ##### BUG: must match by less than or equal rather than the exact value
             # get key from event end time
-            end_time_index = end_time_map[e.end_time]
+            end_time_index = end_time_map[e.end_time] 
             row_index = rows[e.start_time]
             # TODO calculate rows from e.start_time and e.end_time
             t1 = e.start_time
