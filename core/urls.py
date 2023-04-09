@@ -25,7 +25,7 @@ urlpatterns = [
     path("table/<int:pk>/edit/", views.TableUpdateView.as_view(), name="table_update"),
     path("table/<int:pk>/delete/", views.TableDeleteView.as_view(), name="table_delete"),
     # event
-    path("table/<int:set_id>/event/new/", views.EventCreateView.as_view(), name="event_delete"),
+    path("table/<int:set_id>/event/new/", views.EventCreateView.as_view(), name="event_create"),
     path("table/<int:set_id>/event/<int:pk>/", views.EventUpdateView.as_view(), name="event_update"),
     path("table/<int:set_id>/event/<int:pk>/delete/", views.EventDeleteView.as_view(), name="event_delete"),
 ]

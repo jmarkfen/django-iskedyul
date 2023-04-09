@@ -59,11 +59,14 @@ class EventCreateView(CreateView):
     fields = "__all__"
     #template_name = ".html"
 
-    def get_initial(self):
-        initial = super().get_initial()
-        # set the value of the field to the 'set_id' url parameter
-        initial['set'] = Timetable.objects.get(id=self.kwargs['set_id'])
-        return initial
+    # modify generated form
+    def get_form(self):
+        form = super().get_form()
+        form.fields['start_time'].widget = TimePickerInput()
+        form.fields['end_time'].widget = TimePickerInput()
+        # set selected timetable
+        form.fields['timetable'].initial = self.kwargs['set_id']
+        return form
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

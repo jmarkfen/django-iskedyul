@@ -53,6 +53,52 @@ class Timetable(models.Model):
             current_time = new_time
         return tuple(time_ranges)
 
+    def by_time_range(self):
+        """ returns a queryset annotated with the time range """
+        # step 1: group into start times
+        # step 2: for each group, sort elements by day
+        # step 3: mark conflicts by checking each group for events in the same day
+        # step 4: create matrixq
+        #         for conflicts, insert a new column to put the second item
+        #         also insert columns on the same index on other rows
+        # generate time_ranges
+        time_ranges = self.get_time_ranges()
+        # create queryset with events sorted by start_time then day
+        qs = self.event_set.all().order_by('start_time', 'day')
+        # create when clauses for annotating time ranges
+        whens = []
+        for r in time_ranges:
+            # when condition then label
+            # TODO: format time label
+            whens.append(When(start_time__gte=r['start'], start_time__lt=r['end'], then=Value(r['label'])))
+        # annotate queryset with time ranges
+        qs = qs.annotate(
+            time_range=Case(
+                *whens,
+                default=Value('other'),
+                output_field=models.CharField(),
+            )
+        ).values('timetable_id', 'id', 'text', 'day', 'start_time', 'end_time', 'time_range')
+        # annotate queryset with conflict
+
+        # TODO: test blocks with same day and time range
+        # return queryset
+        return qs
+
+    def get_rows(self):
+        """ get rows sorted by time ranges """
+        labels = [t['label'] for t in self.get_time_ranges()]
+        matrix = self.by_time_range()
+        rows = []
+        for label in labels:
+            # get only records in the time range
+            m = matrix.filter(time_range=label)
+            # count records with identical time_ranges
+            m_annot = helpers.count_field(m, 'time_range', label)
+            
+            rows.append({'label': label, 'queryset': m_annot})
+        return rows
+
     def get_matrix(self) -> dict:
         """ generate matrix data for rendering timetable """
         # get events sorted by start_time then day
