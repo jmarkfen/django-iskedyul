@@ -19,11 +19,11 @@ from . import views
 urlpatterns = [
     # timetable
     path("test", views.TestView.as_view(), name="test"),
-    path("", views.TimetableListView.as_view(), name="timetable_list"),
-    path("table/new/", views.TimetableCreateView.as_view(), name="timetable_create"),
-    path("table/<int:pk>/", views.TimetableDetailView.as_view(), name="timetable_detail"),
-    path("table/<int:pk>/edit/", views.TimetableUpdateView.as_view(), name="timetable_update"),
-    path("table/<int:pk>/delete/", views.TimetableDeleteView.as_view(), name="timetable_delete"),
+    path("", views.TableListView.as_view(), name="table_list"),
+    path("table/new/", views.TimetableCreateView.as_view(), name="table_create"),
+    path("table/<int:pk>/", views.TimetableDetailView.as_view(), name="table_detail"),
+    path("table/<int:pk>/edit/", views.TimetableUpdateView.as_view(), name="table_update"),
+    path("table/<int:pk>/delete/", views.TimetableDeleteView.as_view(), name="table_delete"),
     # event
     path("table/<int:set_id>/event/new/", views.EventCreateView.as_view(), name="event_delete"),
     path("table/<int:set_id>/event/<int:pk>/", views.EventUpdateView.as_view(), name="event_update"),

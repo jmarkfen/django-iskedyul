@@ -12,5 +12,5 @@
 {% if object %}
     <a href="{% url 'event_delete' object.timetable_id object.id %}">delete</a>
 {% endif %}
-<a href={% url 'timetable_detail' set_id %}>go back</a>
+<a href={% url 'table_detail' set_id %}>go back</a>
 {% endblock %}
