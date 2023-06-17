@@ -4,16 +4,41 @@
 {% url 'table_list' as table_list %}
 {% url 'event_create' object.id as event_create %}
 {% url 'table_delete' object.id as table_delete %}
+
+
+{# Title #}
+<div class="row">
+    <div class="container-fluid justify-content-center">
+        <a href="{% url 'table_update' object.id %}">{{ object.title }}</a>
+    </div>
+</div>
+
+<div class="row">
+
+    {# Table #}
+    <div class="col-9">
+        <div class="table-responsive">
+            {% include 'core/timetable_detail_table.html' %}
+        </div>
+    </div>
+
+    {# List of events, new event #}
+    <div class="col-3">
+    </div>
+
+</div>
+{% comment %}
+
 <div>
     <a href="{% url 'table_update' object.id %}">{{ object.title }}</a>
     {% bootstrap_button "Return" button_type="link" button_class="btn-dark" href=table_list %}
     {% bootstrap_button "Add event" button_type="link" button_class="btn-dark" href=event_create %}
-    {% bootstrap_button "Delete" button_type="link" button_class="btn-dark" href=table_delete %}
 </div>
+
 <div>
     <div class="table-responsive">
         {% include 'core/timetable_detail_table.html' %}
     </div>
-</div>
+</div> {% endcomment %}
 
 {% endblock %}
