@@ -5,28 +5,53 @@
 {% url 'event_create' object.id as event_create %}
 {% url 'table_delete' object.id as table_delete %}
 
-
-{# Title #}
 <div class="row">
-    <div class="container-fluid justify-content-center">
-        <a href="{% url 'table_update' object.id %}">{{ object.title }}</a>
-    </div>
-</div>
-
-<div class="row">
-
-    {# Table #}
-    <div class="col-9">
+    <!--title and table-->
+    <div class="col-9 d-block">
+        <!--title-->
+        <h5 class="text-center">{{object.title}}</h5>
+        <!--end title-->
+        <!--table-->
+        
         <div class="table-responsive">
             {% include 'core/timetable_detail_table.html' %}
         </div>
+        <!--end table-->
     </div>
+    <!--end title and table-->
 
-    {# List of events, new event #}
+    <!--right side-->
     <div class="col-3">
+        <h5 class="text-center">Details</h5>
+        <div class="row row-cols-1 g-2">
+            <div class="col">
+                <div class="card border border-primary-subtle rounded-0">
+                    <div class="card-body">
+                        <p class="card-text">Name: {{object.title}}</p>
+                        <p class="card-text">Notes: {{object.notes}}</p>
+                    </div>
+                    <div class="card-footer text-end">
+                        <a class="btn btn-dark" href="{% url 'table_update' object.id %}">Edit timetable</a>
+                    </div>
+                </div>  
+            </div>  
+            <div class="col">
+                <div class="card border border-primary-subtle rounded-0">
+                    <div class="card-body">
+                        <p class="card-text">No. of events: </p>
+                        <p class="card-text">Conflicts: </p>
+                    </div>
+                    <div class="card-footer text-end">
+                        <a class="btn btn-dark" href="{% url 'event_create' object.id %}">Add event</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
     </div>
-
+    <!--end right side-->
 </div>
+
 {% comment %}
 
 <div>
