@@ -10,7 +10,7 @@ Steps:
 - [x] new project
 - [ ] install django_fbv
 - [ ] new app timetable
-- [ ] 
+- [ ] in models: `from django.contrib.auth.models import User`
 
 
 - timetables
