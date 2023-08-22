@@ -6,8 +6,9 @@ Steps:
 - [x] add gitignore
 - [x] new branch
 - [x] delete venv, iskedyul, core, requirements.txt, db.sqlite3, .vs, .vscodes
-- [ ] new venv
-- [ ] new project
+- [x] new venv
+- [x] new project
+- [ ] 
 
 <!-- 
 
