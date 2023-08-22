@@ -13,12 +13,3 @@ Created for:
     S.Y. 2022-2023  
     Eastern Visayas State University (Main Campus)  
     Tacloban City
-
-
-## August 2023 Rewrite
-
-Steps:
-- [x] add gitignore
-- [ ] new branch
-- [ ] delete venv, iskedyul and core
-- [ ] 

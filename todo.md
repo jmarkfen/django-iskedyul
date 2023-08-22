@@ -1,5 +1,15 @@
 # TODO
 
+## August 2023 Rewrite
+
+Steps:
+- [x] add gitignore
+- [ ] new branch
+- [ ] delete venv, iskedyul, core, requirements.txt
+- [ ] 
+
+<!-- 
+
 ## Functionality
 
 - [x] install crispy forms
@@ -27,3 +37,5 @@
 
 - ~~time input widget~~
 - time rows
+
+ -->
