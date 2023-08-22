@@ -5,7 +5,7 @@
 Steps:
 - [x] add gitignore
 - [ ] new branch
-- [ ] delete venv, iskedyul, core, requirements.txt
+- [ ] delete venv, iskedyul, core, requirements.txt, db.sqlite3
 - [ ] 
 
 <!-- 
