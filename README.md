@@ -17,3 +17,7 @@ Created for:
 
 ## August 2023 Rewrite
 
+Steps:
+* new branch
+* delete venv, iskedyul and core
+* 
