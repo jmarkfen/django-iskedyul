@@ -8,8 +8,8 @@ Steps:
 - [x] delete venv, iskedyul, core, requirements.txt, db.sqlite3, .vs, .vscodes
 - [x] new venv
 - [x] new project
-- [ ] install django_fbv
 - [ ] new app timetable
+- [ ] install django_fbv
 - [ ] in models: `from django.contrib.auth.models import User`
 
 
