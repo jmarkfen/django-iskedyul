@@ -83,6 +83,10 @@ DATABASES = {
     }
 }
 
+# Authentication
+
+LOGIN_REDIRECT_URL = '/'
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
