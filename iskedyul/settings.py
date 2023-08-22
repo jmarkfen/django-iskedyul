@@ -49,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'fbv.middleware.RequestMethodMiddleware',
 ]
 
 ROOT_URLCONF = 'iskedyul.urls'
