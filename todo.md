@@ -13,7 +13,10 @@ Steps:
 - [x] timetables model timetable
 - [x] timetables model event
 - [x] admin register
-- [ ] install django_fbv
+- [x] install django_fbv
+- [ ] install django-browser-reload
+- [x] new urlpatterns
+- [ ] 
 
 
 - timetables
