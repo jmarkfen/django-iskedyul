@@ -9,8 +9,11 @@ Steps:
 - [x] new venv
 - [x] new project
 - [x] new app timetables
+- [x] in models: `from django.contrib.auth.models import User`
+- [x] timetables model timetable
+- [x] timetables model event
+- [x] admin register
 - [ ] install django_fbv
-- [ ] in models: `from django.contrib.auth.models import User`
 
 
 - timetables
