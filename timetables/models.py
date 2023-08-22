@@ -3,9 +3,14 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+
+
 class Timetable(models.Model):
 
-    
+    # owner
+    owner = models.ForeignKey(User, verbose_name=_("owner"), on_delete=models.CASCADE)
+    # title
+    title = models.CharField(_("title"), max_length=50)
 
     class Meta:
         verbose_name = _("Timetable")
@@ -20,7 +25,8 @@ class Timetable(models.Model):
 
 class Event(models.Model):
 
-    
+    # timetable
+    # content
 
     class Meta:
         verbose_name = _("Event")
