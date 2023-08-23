@@ -14,15 +14,30 @@ Steps:
 - [x] timetables model event
 - [x] admin register
 - [x] install django_fbv
-- [ ] install django-browser-reload
-- [x] new urlpatterns
-- [ ] 
+- [x] install django-browser-reload
 
 
-- timetables
-  - users
-  - tables
-  - events
+Feature Checklist:
+- login
+  - [ ] basic form
+  - [ ] ...
+  - [ ] require login for views
+- list timetables
+  - [ ] basic index page
+- create timetable info
+  - [ ] basic form
+- edit timetables info
+  - [ ] basic form
+- delete timetables
+  - [ ] basic dialog
+- add event
+  - [ ] basic form
+- edit event
+  - [ ] basic form
+- delete event
+  - [ ] basic form
+
+
 
 <!-- 
 

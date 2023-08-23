@@ -1,0 +1,24 @@
+{% extends 'timetables/base.html' %}
+
+{% block content %}
+
+<form>
+    <div class="grid">
+        <div>
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" placeholder="title" required>
+        </div>
+        <div>
+            <label for="interval">Interval</label>
+            <select id="interval" required>
+                <option value="" selected>Select interval..</option>
+                <option>…</option>
+              </select>
+        </div>
+    </div>
+    <!-- Button -->
+    <button type="submit">Submit</button>
+  
+  </form>
+
+{% endblock content %}
